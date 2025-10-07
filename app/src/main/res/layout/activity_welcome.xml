@@ -7,34 +7,20 @@
     android:gravity="center">
 
     <TextView
+        android:id="@+id/tvWelcomeMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tutor Project 7"
+        android:text="Welcome!"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:gravity="center"
         android:layout_marginBottom="40dp"/>
 
     <Button
-        android:id="@+id/btnLoginMain"
+        android:id="@+id/btnLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:textSize="18sp"
-        android:layout_marginBottom="15dp"/>
-
-    <Button
-        android:id="@+id/btnRegisterStudent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register as Student"
-        android:textSize="18sp"
-        android:layout_marginBottom="15dp"/>
-
-    <Button
-        android:id="@+id/btnRegisterTutor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register as Tutor"
+        android:text="Log Out"
         android:textSize="18sp"/>
 
 </LinearLayout>

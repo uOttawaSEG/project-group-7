@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Student Registration"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="30dp"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/etStudentFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="First Name"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/etStudentLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Last Name"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/etStudentEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/etStudentPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/etStudentPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/etStudentProgram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Program of Study"
+            android:inputType="text"
+            android:layout_marginBottom="25dp"/>
+
+        <Button
+            android:id="@+id/btnRegisterStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btnBackFromStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+</ScrollView>

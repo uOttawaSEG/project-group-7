@@ -1,25 +1,26 @@
 package com.example.otams7.classes;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Tutor  extends AnyUser{
     private String highestdegree;
-    private ArrayList<String> coursesoffered;
+    private List<String> coursesoffered;
 
     public Tutor(String firstName, String lastName, String email, String password, String phonenumber,
-                 String highestdegree, ArrayList<String> coursesoffered){
+                 String highestdegree, List<String> coursesoffered){
 
         super(firstName, lastName, email, password, phonenumber, "my role is a Tutor");
         this.highestdegree=highestdegree;
-        this.coursesoffered=coursesoffered;
+        this.coursesoffered= new ArrayList<>(coursesoffered);
     }
 
 
-    public ArrayList<String> getCoursesoffered() {
+    public List<String> getCoursesoffered() {
         return coursesoffered;
     }
 
-    public void setCoursesoffered(ArrayList<String> coursesoffered) {
+    public void setCoursesoffered(List<String> coursesoffered) {
         this.coursesoffered = coursesoffered;
     }
 

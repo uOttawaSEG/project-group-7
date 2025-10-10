@@ -15,7 +15,7 @@
         android:layout_gravity="center"/>
 
     <EditText
-        android:id="@+id/etLoginEmail"
+        android:id="@+id/emaillogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
@@ -23,7 +23,7 @@
         android:layout_marginBottom="15dp"/>
 
     <EditText
-        android:id="@+id/etLoginPassword"
+        android:id="@+id/loginpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
@@ -31,7 +31,7 @@
         android:layout_marginBottom="25dp"/>
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/buttonLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
@@ -39,7 +39,7 @@
         android:layout_marginBottom="15dp"/>
 
     <Button
-        android:id="@+id/btnBackToMain"
+        android:id="@+id/buttonBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Back"

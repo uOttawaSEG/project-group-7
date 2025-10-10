@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OTAMS7">
         <activity
-            android:name=".MainActivity"
+            android:name=".RegisterTutorActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

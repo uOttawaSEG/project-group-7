@@ -99,17 +99,9 @@ AuthService is the bridge the UI will use — making it simple for the front-end
 
 Main.java is a simple console runner to simulate user interactions.
 
-🧑‍💻 Future Work (Optional)
 
-🔐 Integrate with Firebase or a real database.
 
-🧪 Add unit tests for repository and use-cases.
-
-🧱 Add persistence (save users to a file or JSON).
-
-👤 Author
-
-Backend Developer: Your Name
+Backend Developer: Rayyan Omar
 Course: SEG2105 – Software Engineering
 Focus: Backend authentication & role management module
 

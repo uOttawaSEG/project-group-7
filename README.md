@@ -11,3 +11,13 @@ Team Members
 <br>Google Meet: https://meet.google.com/bwg-cort-usr
 <br> Google Docs: https://docs.google.com/document/d/1up98V6YdBWjPNzX8ZuNKuVOxdJLtv_BvlobuyC1qdcM/edit?tab=t.0
 
+
+DEMO FLOWS:
+
+
+<br>OWNER LOGIN/ADMIN
+<br>TUTORING REG  ADAM J: https://www.loom.com/share/44d66a15cbe34d5593e45076928981b9?sid=85199672-b228-49ab-be97-75a3cc9ddf44
+<br>STUDENT REG  PART:
+<br>WELCOME SCREEN:
+
+

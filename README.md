@@ -23,28 +23,6 @@ This project is the backend layer of our SEG2105 application. It handles user re
 
 The backend is built using pure Java and follows a simple, modular structure that makes it easy to maintain and upgrade (e.g., switching to Firebase in the future).
 
-📁 Project Structure
-SEG2105-PROJECT/
-├─ data/
-│  ├─ AuthRepository.java           # Interface defining authentication methods
-│  ├─ InMemoryAuthRepository.java   # In-memory implementation of the repository
-│  ├─ AdminSeeder.java              # Seeds a default admin user
-│  └─ models/
-│     ├─ Role.java                  # Enum for user roles
-│     ├─ User.java                  # Base class for all users
-│     ├─ Student.java               # Student model
-│     └─ Tutor.java                 # Tutor model
-│
-├─ auth/
-│  ├─ LoginUseCase.java             # Handles user login
-│  ├─ LogoutUseCase.java            # Handles user logout
-│  ├─ RegisterStudentUseCase.java   # Registers new students
-│  └─ RegisterTutorUseCase.java     # Registers new tutors
-│
-├─ core/
-│  └─ AuthService.java              # Facade connecting UI with backend logic
-│
-└─ Main.java                        # Test runner for backend without UI
 
 🧠 Features
 

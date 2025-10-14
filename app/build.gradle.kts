@@ -3,11 +3,19 @@ plugins {
 }
 
 android {
+<<<<<<< HEAD
     namespace = "com.example.otams7"
     compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.otams7"
+=======
+    namespace = "com.example.otams"
+    compileSdk = 36
+
+    defaultConfig {
+        applicationId = "com.example.otams"
+>>>>>>> cffd03e (Arsh's first commit for Deliverable 1)
         minSdk = 24
         targetSdk = 36
         versionCode = 1

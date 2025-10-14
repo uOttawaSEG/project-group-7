@@ -1,3 +1,7 @@
 <resources>
+<<<<<<< HEAD
     <string name="app_name">OTAMS7</string>
+=======
+    <string name="app_name">OTAMS</string>
+>>>>>>> cffd03e (Arsh's first commit for Deliverable 1)
 </resources>

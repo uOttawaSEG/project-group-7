@@ -19,5 +19,11 @@ dependencyResolutionManagement {
     }
 }
 
+<<<<<<< HEAD
 rootProject.name = "OTAMS7"
 include(":app")
+=======
+rootProject.name = "OTAMS"
+include(":app")
+ 
+>>>>>>> cffd03e (Arsh's first commit for Deliverable 1)

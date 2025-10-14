@@ -16,7 +16,6 @@ import android.graphics.Color;
 import android.widget.Toast;
 
 
-
 public class MainActivity extends AppCompatActivity {
 
     private EditText firstName, lastName, email, password, phone, program;
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Registered, please log in.", Toast.LENGTH_SHORT).show();
                 StudentRepository repo = new StudentRepository();
                 repo.registerStudent(first, last, mail, pass, phoneNum, prog);
-
+                return;
 
             }
         });

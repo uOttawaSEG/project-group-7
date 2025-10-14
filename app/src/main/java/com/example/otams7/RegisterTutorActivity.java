@@ -54,36 +54,39 @@ public class RegisterTutorActivity extends AppCompatActivity {
         String degree = etTutorDegree.getText().toString().trim();
         String coursesInput = etTutorCourses.getText().toString().trim();
 
+
+
+
         // confitions  for inputs to nove have errors
         if (first.isEmpty()) { toast("Enter first name"); return; }
         if (last.isEmpty()) { toast("Enter last name"); return; }
         if (!email.contains("@")) { toast("Invalid email"); return; }
-        if (pass.length() <2) { toast("Password must be at least 2 "); return; }
+        if (pass.length() <6) { toast("Password must be at least 6 "); return; }
         if (phone.isEmpty()) { toast("Enter phone number"); return; }
         if (degree.isEmpty()) { toast("Enter highest degree"); return; }
         if (coursesInput.isEmpty()) { toast("Enter > one course"); return; }
 
-        List<String> courses = new ArrayList<>();
+        List<String> coursesarray = new ArrayList<>();
         for (String c : coursesInput.split(",")) {
-            String course = c.trim();
-            if (!course.isEmpty()) courses.add(course);
+            String coursetrimmed = c.trim(); //get rid of white spaces
+            if (!coursetrimmed.isEmpty()) coursesarray.add(coursetrimmed);
         }
 
         //if not foudn in list say if list null put toast message
 
-        if (courses.isEmpty()) {
+        if (coursesarray.isEmpty()) {
             toast("hey tutor provide a  courses");
             return;
         }
 
-        Tutor t = new Tutor(first, last, email, pass, phone, degree, courses);
+        Tutor t = new Tutor(first, last, email, pass, phone, degree, coursesarray);
 
         boolean ok = repo.registerTutor(t); //call method from AuthRepo
         if (!ok) {
             toast("Email already registered");
         } else {
-            toast("Tutor registered, please log in");
-            finish(); // back to login
+            toast("Hey tutor you are  registered, please log in");
+
         }
     }
 

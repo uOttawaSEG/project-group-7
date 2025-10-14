@@ -13,6 +13,7 @@ Team Members
  Weekly Google Meet + Google Docs Project Notes
 <br>Google Meet: https://meet.google.com/bwg-cort-usr
 <br> Google Docs: https://docs.google.com/document/d/1up98V6YdBWjPNzX8ZuNKuVOxdJLtv_BvlobuyC1qdcM/edit?tab=t.0
+Video Link (OTAMS) -> https://drive.google.com/file/d/1mCUGaIK-tHyajgrzp2LBJLoKbJOTaO8m/view?usp=sharing
 
 
 

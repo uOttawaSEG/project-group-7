@@ -10,7 +10,7 @@ public class Tutor  extends AnyUser{
     public Tutor(String firstName, String lastName, String email, String password, String phonenumber,
                  String highestdegree, List<String> coursesoffered){
 
-        super(firstName, lastName, email, password, phonenumber, "my role is a Tutor");
+        super(firstName, lastName, email, password, phonenumber, "my role is a Tutor","Pending");
         this.highestdegree=highestdegree;
         this.coursesoffered= new ArrayList<>(coursesoffered);
     }

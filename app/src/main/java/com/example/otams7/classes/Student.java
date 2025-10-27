@@ -8,7 +8,7 @@ public class Student extends AnyUser{
     public Student( String firstName, String lastName, String email, String password,
                     String phonenumber, String programofstudy){
         //inherit from anyuser and the role is student
-        super(firstName, lastName, email, password, phonenumber, "My role is a student");
+        super(firstName, lastName, email, password, phonenumber, "My role is a student","Pending");
         this.programofstudy=programofstudy;
 
 

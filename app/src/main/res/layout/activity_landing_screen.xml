@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:id="@+id/btnSideColumn"
+        android:layout_width="413dp"
+        android:layout_height="789dp"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingTop="32dp"
+        android:paddingEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="368dp"
+            android:layout_height="90dp"
+            android:layout_marginBottom="8dp"
+            android:text="OTAMS"
+            android:textAlignment="center"
+            android:textColor="#111111"
+            android:textSize="35sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/mainImage"
+            android:layout_width="368dp"
+            android:layout_height="310dp"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/otams_lauch_image" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/background"
+            android:hint="email"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:textColor="#111111"
+            android:textColorHint="#9CA3AF" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/background"
+            android:hint="password"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColor="#111111"
+            android:textColorHint="#9CA3AF" />
+
+        <Button
+            android:id="@+id/btnSignin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#000000"
+            android:text="Login"
+            android:textColor="#FFFFFF"
+            android:textColorLink="#1F1D16"
+            android:textCursorDrawable="@drawable/button_background" />
+
+        <TextView
+            android:id="@+id/linkDevAdmin"
+            android:layout_width="375dp"
+            android:layout_height="34dp"
+            android:text="Continue as Admin."
+            android:textAlignment="center"
+            android:textColor="#1D4ED8"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:layout_editor_absoluteX="67dp"
+            tools:layout_editor_absoluteY="477dp" />
+
+        <TextView
+            android:id="@+id/btnRegisterTutor"
+            android:layout_width="375dp"
+            android:layout_height="31dp"
+            android:text="Register as Tutor"
+            android:textAlignment="center"
+            android:textColor="#1D4ED8"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="67dp"
+            tools:layout_editor_absoluteY="514dp" />
+
+        <TextView
+            android:id="@+id/linkRegisterStudent"
+            android:layout_width="375dp"
+            android:layout_height="90dp"
+            android:text="Register as Student"
+            android:textAlignment="center"
+            android:textColor="#1D4ED8"
+            android:textColorLink="#6F5555"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="67dp"
+            tools:layout_editor_absoluteY="545dp" />
+
+        <TextView
+            android:layout_width="375dp"
+            android:layout_height="16dp"
+            android:text="© project-group-7"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="#8E8E8E"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

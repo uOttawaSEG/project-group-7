@@ -16,7 +16,7 @@ public class AuthRepo {
     public AuthRepo(){
 
         users.add(new AnyUser("Admin","Admin",
-                "admin@uottawa.ca","1234","0000000000","Adminstrator"));
+                "admin@uottawa.ca","1234","0000000000","Adminstrator","PENDING!"));
     }
 
 
@@ -25,6 +25,13 @@ public class AuthRepo {
         users.add(t);
         return true;
     }
+
+    public boolean registerStudent(Student std) {
+        if (findUserByEmail(std.getEmail()) != null) return false;
+        users.add(std);
+        return true;
+    }
+
 
 
     public static AuthRepo getInstance(){

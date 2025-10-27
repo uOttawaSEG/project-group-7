@@ -10,13 +10,21 @@ import android.widget.Toast;
 
 import com.example.otams7.classes.AuthRepo;
 import com.example.otams7.classes.Tutor;
+import com.google.firebase.Firebase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class RegisterTutorActivity extends AppCompatActivity {
+
+
+    FirebaseFirestore db= FirebaseFirestore.getInstance();
 
     private EditText etTutorFirstName, etTutorLastName, etTutorEmail, etTutorPassword, etTutorPhone, etTutorDegree, etTutorCourses;
     private AuthRepo repo;
@@ -87,14 +95,38 @@ public class RegisterTutorActivity extends AppCompatActivity {
         } else {
             toast("Hey tutor you are  registered, please log in");
 
+
+            Map<String, Object> tutor = new HashMap<>();
+            tutor.put("firstName", first);
+            tutor.put("lastName", last);
+            tutor.put("email", email);
+            tutor.put("password", pass);
+            tutor.put("phoneNumber", phone);
+            tutor.put("highestDegree", degree);
+            tutor.put("coursesOffered", coursesarray);
+            tutor.put("role", "Tutor");
+
+            db.collection("users")
+                    .add(tutor)
+                    .addOnSuccessListener((DocumentReference doc) ->
+                            Toast.makeText(this, "Tutor saved in database!", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this, "Error not saved!: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
+
+
+
         }
+
     }
 
-    //reference https://developer.android.com/guide/topics/ui/notifiers/toasts
 
     private void toast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
+
+
 }
 
 

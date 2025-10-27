@@ -12,11 +12,14 @@ public  class AnyUser {
     //get role of user
     private String role;
 
+    private String status;
+    //pending aproved or rejected
+
     //construct all params
 
 
     public AnyUser(String firstName, String lastName,
-                   String email, String password, String phonenumber, String role){
+                   String email, String password, String phonenumber, String role,String status){
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -24,9 +27,12 @@ public  class AnyUser {
         this.password = password;
         this.phonenumber = phonenumber;
         this.role = role;
+        this.status=status;
 
 
     }
+
+    public  AnyUser(){}
 
 
 
@@ -82,6 +88,11 @@ public  class AnyUser {
     }
 
 
+    public String getStatus() {
+        return status;
+    }
 
-
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

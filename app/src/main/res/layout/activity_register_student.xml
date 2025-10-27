@@ -72,6 +72,8 @@
             android:layout_height="wrap_content"
             android:text="Register"
             android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#000000"
             android:layout_marginBottom="10dp"/>
 
         <Button
@@ -79,7 +81,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Back"
-            android:textSize="18sp"/>
+
+            android:backgroundTint="#9E9E9E"
+            android:textSize="18sp"
+            />
 
     </LinearLayout>
 </ScrollView>

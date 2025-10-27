@@ -1,16 +1,16 @@
 package com.example.otams7.backend.core;
 
 // com/seg2105/project/core/AuthService.java
-package core;
 
-import auth.LoginUseCase;
-import auth.LogoutUseCase;
-import auth.RegisterStudentUseCase;
-import auth.RegisterTutorUseCase;
-import data.AuthRepository;
+
+import com.example.otams7.backend.data.AuthRepository;
+import com.example.otams7.backend.auth.LoginUseCase;
+import com.example.otams7.backend.auth.LogoutUseCase;
+import com.example.otams7.backend.auth.RegisterStudentUseCase;
+import com.example.otams7.backend.auth.RegisterTutorUseCase;
 import com.example.otams7.backend.data.InMemoryAuthRepository;
-import data.models.Student;
-import data.models.Tutor;
+import com.example.otams7.backend.data.models.Student;
+import com.example.otams7.backend.data.models.Tutor;
 
 /**
  * Thin facade the UI can call.
@@ -27,7 +27,7 @@ public class AuthService {
     public static AuthService createDefaultSeeded(String adminEmail, String adminPassword) {
         InMemoryAuthRepository mem = new InMemoryAuthRepository();
         mem.seedAdmin(adminEmail, adminPassword);
-        return new AuthService(mem);
+        return new AuthService((AuthRepository) mem);
     }
 
     public void registerStudent(String email, String password, String first, String last) {

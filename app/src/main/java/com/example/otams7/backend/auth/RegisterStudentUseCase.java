@@ -1,9 +1,8 @@
 package com.example.otams7.backend.auth;
 
-package auth;
 
-import data.AuthRepository;
-import data.models.Student;
+import com.example.otams7.backend.data.AuthRepository;
+import com.example.otams7.backend.data.models.Student;
 
 public class RegisterStudentUseCase {
     private final AuthRepository repo;

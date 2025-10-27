@@ -1,8 +1,9 @@
 package com.example.otams7.backend.auth;
 
-package auth;
 
-import data.AuthRepository;
+
+import com.example.otams7.backend.data.AuthRepository;
+
 
 public class LogoutUseCase {
     private final AuthRepository repo;

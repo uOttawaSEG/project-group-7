@@ -1,9 +1,14 @@
 // com/seg2105/project/data/InMemoryAuthRepository.java
 package com.example.otams7.backend.data;
-import data.models.Role;
-import data.models.Student;
-import data.models.Tutor;
-import data.models.User;
+import com.example.otams7.backend.data.AuthRepository;
+
+import com.example.otams7.backend.data.AuthRepository;
+import com.example.otams7.backend.data.models.Role;
+import com.example.otams7.backend.data.models.User;
+import com.example.otams7.backend.data.models.Tutor;
+import com.example.otams7.backend.data.models.Student;
+
+
 
 import java.util.HashMap;
 import java.util.Map;

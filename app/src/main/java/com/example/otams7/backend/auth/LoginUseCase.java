@@ -1,7 +1,9 @@
 package com.example.otams7.backend.auth;
 
 
-import data.AuthRepository;
+
+import com.example.otams7.backend.data.AdminSeeder;
+import com.example.otams7.backend.data.AuthRepository;
 
 public class LoginUseCase {
     private final AuthRepository repo;

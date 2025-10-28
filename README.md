@@ -12,12 +12,4 @@ Team Members
 <br> Google Docs: https://docs.google.com/document/d/1up98V6YdBWjPNzX8ZuNKuVOxdJLtv_BvlobuyC1qdcM/edit?tab=t.0
 
 
-DEMO FLOWS:
-
-
-<br>OWNER LOGIN/ADMIN
-<br>TUTORING REG  
-<br>STUDENT REG  PART:
-<br>WELCOME SCREEN:
-
 

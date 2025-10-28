@@ -45,20 +45,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.VH> {
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // inflate small row layout (create item_user.xml as shown below)
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.admininbox, parent, false);
+        // its not the adminbinox its item user
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
         return new VH(view);
     }
 
-    @Override
+        @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         Item it = items.get(position);
         AnyUser u = it.user;
 
-        // safeguard nulls
+
         String name = (u.getFirstName() == null ? "" : u.getFirstName()) + " " + (u.getLastName() == null ? "" : u.getLastName());
         holder.txtName.setText(name.trim());
         holder.txtRole.setText(u.getRole() == null ? "" : u.getRole());
+        holder.txtEmail.setText(u.getEmail() == null ? "" : u.getEmail());
+
+
 
         holder.itemView.setOnClickListener(v -> {
             if (click != null) click.onItem(it.userid, it.user);
@@ -71,11 +74,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.VH> {
     }
 
     static class VH extends RecyclerView.ViewHolder {
-        TextView txtName, txtRole;
+        TextView txtName, txtRole, txtEmail;
         VH(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txtUserName);
             txtRole = itemView.findViewById(R.id.txtUserRole);
+            txtEmail=itemView.findViewById(R.id.txtUserEmail);
+
         }
     }
 }

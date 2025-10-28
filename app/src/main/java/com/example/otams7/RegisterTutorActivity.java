@@ -1,41 +1,38 @@
 package com.example.otams7;
 
-
-//same imports as main activity default file
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.otams7.classes.AuthRepo;
-import com.example.otams7.classes.Tutor;
-import com.google.firebase.Firebase;
-import com.google.firebase.firestore.DocumentReference;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.otams7.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class RegisterTutorActivity extends AppCompatActivity {
 
-
-    FirebaseFirestore db= FirebaseFirestore.getInstance();
-
     private EditText etTutorFirstName, etTutorLastName, etTutorEmail, etTutorPassword, etTutorPhone, etTutorDegree, etTutorCourses;
-    private AuthRepo repo;
+    private FirebaseAuth auth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_tutor);
 
-        //
-        repo = AuthRepo.getInstance();
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         etTutorFirstName = findViewById(R.id.etTutorFirstName);
         etTutorLastName = findViewById(R.id.etTutorLastName);
@@ -44,6 +41,7 @@ public class RegisterTutorActivity extends AppCompatActivity {
         etTutorPhone = findViewById(R.id.etTutorPhone);
         etTutorDegree = findViewById(R.id.etTutorDegree);
         etTutorCourses = findViewById(R.id.etTutorCourses);
+
         Button btnRegisterTutor = findViewById(R.id.btnRegisterTutor);
         Button btnBackFromTutor = findViewById(R.id.btnBackFromTutor);
 
@@ -52,8 +50,6 @@ public class RegisterTutorActivity extends AppCompatActivity {
     }
 
     private void registerTutor() {
-
-        //set with variables string to use for constructing a tutor object after
         String first = etTutorFirstName.getText().toString().trim();
         String last = etTutorLastName.getText().toString().trim();
         String email = etTutorEmail.getText().toString().trim();
@@ -62,72 +58,54 @@ public class RegisterTutorActivity extends AppCompatActivity {
         String degree = etTutorDegree.getText().toString().trim();
         String coursesInput = etTutorCourses.getText().toString().trim();
 
-
-
-
-        // confitions  for inputs to nove have errors
         if (first.isEmpty()) { toast("Enter first name"); return; }
         if (last.isEmpty()) { toast("Enter last name"); return; }
         if (!email.contains("@")) { toast("Invalid email"); return; }
-        if (pass.length() <6) { toast("Password must be at least 6 "); return; }
+        if (pass.length() < 6) { toast("Password must be at least 6 characters"); return; }
         if (phone.isEmpty()) { toast("Enter phone number"); return; }
         if (degree.isEmpty()) { toast("Enter highest degree"); return; }
-        if (coursesInput.isEmpty()) { toast("Enter > one course"); return; }
+        if (coursesInput.isEmpty()) { toast("Enter at least one course"); return; }
 
-        List<String> coursesarray = new ArrayList<>();
+        // Convert courses string to list
+        List<String> courses = new ArrayList<>();
         for (String c : coursesInput.split(",")) {
-            String coursetrimmed = c.trim(); //get rid of white spaces
-            if (!coursetrimmed.isEmpty()) coursesarray.add(coursetrimmed);
+            String trimmed = c.trim();
+            if (!trimmed.isEmpty()) courses.add(trimmed);
         }
+        if (courses.isEmpty()) { toast("Provide at least one course"); return; }
 
-        //if not foudn in list say if list null put toast message
+        auth.createUserWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            String uid = auth.getCurrentUser().getUid();
 
-        if (coursesarray.isEmpty()) {
-            toast("hey tutor provide a  courses");
-            return;
-        }
+                            Map<String, Object> tutor = new HashMap<>();
+                            tutor.put("firstName", first);
+                            tutor.put("lastName", last);
+                            tutor.put("email", email);
+                            tutor.put("phoneNumber", phone);
+                            tutor.put("highestDegree", degree);
+                            tutor.put("coursesOffered", courses);
+                            tutor.put("role", "Tutor");
+                            tutor.put("status", "PENDING");
 
-        Tutor t = new Tutor(first, last, email, pass, phone, degree, coursesarray);
-
-        boolean ok = repo.registerTutor(t); //call method from AuthRepo
-        if (!ok) {
-            toast("Email already registered");
-        } else {
-            toast("Hey tutor you are  registered, please log in");
-
-
-            Map<String, Object> tutor = new HashMap<>();
-            tutor.put("firstName", first);
-            tutor.put("lastName", last);
-            tutor.put("email", email);
-            tutor.put("password", pass);
-            tutor.put("phoneNumber", phone);
-            tutor.put("highestDegree", degree);
-            tutor.put("coursesOffered", coursesarray);
-            tutor.put("role", "Tutor");
-
-            db.collection("users")
-                    .add(tutor)
-                    .addOnSuccessListener((DocumentReference doc) ->
-                            Toast.makeText(this, "Tutor saved in database!", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e ->
-                            Toast.makeText(this, "Error not saved!: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-
-
-
-
-        }
-
+                            db.collection("users").document(uid)
+                                    .set(tutor)
+                                    .addOnSuccessListener(aVoid -> {
+                                        toast("Registration successful!");
+                                        finish();
+                                    })
+                                    .addOnFailureListener(e -> toast("Error saving tutor: " + e.getMessage()));
+                        } else {
+                            toast("Registration failed: " + task.getException().getMessage());
+                        }
+                    }
+                });
     }
-
 
     private void toast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
-
-
-
 }
-
-
-

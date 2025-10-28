@@ -97,36 +97,36 @@ public class Landing_Screen extends AppCompatActivity {
 
 
 
-                Intent log = new Intent(this, AdminInboxActivity.class);
-                log.putExtra(newLand, "Administrator");
-                startActivity(log);
-
-
-
-
-
-
-                // Now store the credentials in Firebase (only if login is successful)
-                Map<String, Object> user = new HashMap<>();
-                user.put("email", emailAddress);
-                user.put("password", password); // You may want to store a hashed password instead for security reasons
-
-                db.collection("users")
-                        .add(user)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(Landing_Screen.this,"Data stored",Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Landing_Screen.this,"ERROR: " + e.getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        });
+//                Intent log = new Intent(this, AdminInboxActivity.class);
+//                log.putExtra(newLand, "Administrator");
+//                startActivity(log);
+//
+//
+//
+//
+//
+//
+//                // Now store the credentials in Firebase (only if login is successful)
+//                Map<String, Object> user = new HashMap<>();
+//                user.put("email", emailAddress);
+//                user.put("password", password); // You may want to store a hashed password instead for security reasons
+//
+//                db.collection("users")
+//                        .add(user)
+//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                            @Override
+//                            public void onSuccess(DocumentReference documentReference) {
+//                                Toast.makeText(Landing_Screen.this,"Data stored",Toast.LENGTH_SHORT).show();
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(Landing_Screen.this,"ERROR: " + e.getMessage(),Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
             }
-
+//
 
         });
 

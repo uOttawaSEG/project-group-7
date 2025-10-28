@@ -5,10 +5,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.otams7.R;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -17,17 +21,16 @@ import java.util.Map;
 public class RegisterStudentActivity extends AppCompatActivity {
 
     private EditText etStudentFirstName, etStudentLastName, etStudentEmail, etStudentPassword, etStudentPhone, etStudentProgram;
-    private AuthRepo repo;
-
-    FirebaseFirestore db= FirebaseFirestore.getInstance();
+    private FirebaseAuth auth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_student); // Link to the correct layout XML
+        setContentView(R.layout.activity_register_student);
 
-        // Initialize the repository and UI components
-        repo = AuthRepo.getInstance();
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         etStudentFirstName = findViewById(R.id.etStudentFirstName);
         etStudentLastName = findViewById(R.id.etStudentLastName);
@@ -38,13 +41,11 @@ public class RegisterStudentActivity extends AppCompatActivity {
         Button btnRegisterStudent = findViewById(R.id.btnRegisterStudent);
         Button btnBackFromStudent = findViewById(R.id.btnBackFromStudent);
 
-        // Register button logic
         btnRegisterStudent.setOnClickListener(v -> registerStudent());
-        btnBackFromStudent.setOnClickListener(v -> finish()); // Finish activity and return to previous screen
+        btnBackFromStudent.setOnClickListener(v -> finish());
     }
 
     private void registerStudent() {
-        // Get input values from the EditText fields
         String first = etStudentFirstName.getText().toString().trim();
         String last = etStudentLastName.getText().toString().trim();
         String email = etStudentEmail.getText().toString().trim();
@@ -52,7 +53,6 @@ public class RegisterStudentActivity extends AppCompatActivity {
         String phone = etStudentPhone.getText().toString().trim();
         String program = etStudentProgram.getText().toString().trim();
 
-        // Validate the inputs
         if (first.isEmpty()) { toast("Enter first name"); return; }
         if (last.isEmpty()) { toast("Enter last name"); return; }
         if (!email.contains("@")) { toast("Invalid email"); return; }
@@ -60,36 +60,37 @@ public class RegisterStudentActivity extends AppCompatActivity {
         if (phone.isEmpty()) { toast("Enter phone number"); return; }
         if (program.isEmpty()) { toast("Enter program of study"); return; }
 
-        // Create the student object
-        Student student = new Student(first, last, email, pass, phone, program);
 
-        // Register the student using the repository
-        boolean isRegistered = repo.registerStudent(student);
-
-        if (!isRegistered) {
-            toast("Email already registered");
-        } else {
-            toast("Registration successful, please log in");
+        auth.createUserWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            String uid = auth.getCurrentUser().getUid();
 
 
-            Map<String, Object> student1 = new HashMap<>();
-            student1.put("firstName", first);
-            student1.put("lastName", last);
-            student1.put("email", email);
-            student1.put("password", pass);
-            student1.put("phoneNumber", phone);
-            student1.put("program of study", pass);
-            student1.put("role", "Student");
+                            Map<String, Object> student = new HashMap<>();
+                            student.put("firstName", first);
+                            student.put("lastName", last);
+                            student.put("email", email);
+                            student.put("phoneNumber", phone);
+                            student.put("programofstudy", program);
+                            student.put("role", "Student");
+                            student.put("status", "PENDING");
 
-            db.collection("users")
-                    .add(student1)
-                    .addOnSuccessListener((DocumentReference doc) ->
-                            Toast.makeText(this, "Student saved in database!", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e ->
-                            Toast.makeText(this, "Error not saved!: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-        }
+                            db.collection("users").document(uid)
+                                    .set(student)
+                                    .addOnSuccessListener(aVoid -> {
+                                        toast("Registration successful!");
+                                        finish();
+                                    })
+                                    .addOnFailureListener(e -> toast("Error saving student: " + e.getMessage()));
+                        } else {
+                            toast("Registration failed: " + task.getException().getMessage());
+                        }
+                    }
+                });
     }
-
 
     private void toast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

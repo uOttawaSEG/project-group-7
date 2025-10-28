@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,9 @@ public class AdminInboxActivity extends AppCompatActivity {
     private RecyclerView rv;
     private UserAdapter adapter;
     private UserRepository repo;
-    private ListenerRegistration listener;
-    private String currentMode = "PENDING"; // "PENDING" or "REJECTED"
+    private ListenerRegistration pendinglistener;
+    private ListenerRegistration rejectedListener;
+    private String currentMode = "PENDING";
     private static final String TAG = "AdminInbox";
 
     @Override
@@ -45,13 +47,54 @@ public class AdminInboxActivity extends AppCompatActivity {
         repo = new UserRepository();
         rv.setAdapter(adapter);
 
-        // Tab switch buttons
+
         btnPending.setOnClickListener(v -> switchTo("PENDING"));
         btnRejected.setOnClickListener(v -> switchTo("REJECTED"));
 
         adapter.setClick((userId, user) -> showDetailDialog(userId, user));
 
-        attachListenerFor("PENDING"); // start on pending list
+        attachPendingRej();
+        switchTo("PENDING");
+    }
+
+    private void attachPendingRej() {
+
+        FirebaseFirestore db= FirebaseFirestore.getInstance();
+        pendinglistener= db.collection("users")
+                .whereEqualTo("status","PENDING").addSnapshotListener((snapshots, e) ->{
+                    if (e != null) {
+                        Log.e(TAG, "PENDING listener error", e);
+                        Toast.makeText(AdminInboxActivity.this, "Error loading pending users", Toast.LENGTH_SHORT).show();
+                        return;
+                }
+                    if ("PENDING".equals(currentMode)) {
+                        updateAdapter(snapshots);
+                    }
+                });
+        rejectedListener = db.collection("users")
+                .whereEqualTo("status", "REJECTED")
+                .addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Log.e(TAG, "REJECTED listener error", e);
+                        Toast.makeText(AdminInboxActivity.this, "Error loading rejected users", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if ("REJECTED".equals(currentMode)) {
+                        updateAdapter(snapshots);
+                    }
+                });
+    }
+    private void updateAdapter(QuerySnapshot snapshots) {
+        List<UserAdapter.Item> list = new ArrayList<>();
+        if (snapshots != null) {
+            for (DocumentSnapshot d : snapshots.getDocuments()) {
+                AnyUser u = d.toObject(AnyUser.class);
+                if (u == null || "Administrator".equalsIgnoreCase(u.getRole())) continue;
+                list.add(new UserAdapter.Item(d.getId(), u));
+            }
+        }
+        adapter.setItems(list);
+        adapter.notifyDataSetChanged();
     }
 
     private void switchTo(String mode) {
@@ -61,72 +104,19 @@ public class AdminInboxActivity extends AppCompatActivity {
 
         btnPending.setEnabled(!"PENDING".equals(mode));
         btnRejected.setEnabled(!"REJECTED".equals(mode));
+        attachPendingRej();
 
-        if (listener != null) {
-            listener.remove();
-            listener = null;
-        }
 
-        attachListenerFor(mode);
     }
 
-    private void attachListenerFor(String status) {
-
-        if (listener != null) {
-            listener.remove();
-            listener = null;
-        }
-
-
-        listener = FirebaseFirestore.getInstance()
-                .collection("users").whereEqualTo("status",status)
-                .addSnapshotListener((snapshots, e) -> {
-                    if (e != null) {
-                        Log.e(TAG, "collection listener error", e);
-                        Toast.makeText(AdminInboxActivity.this, "Error loading users (see Logcat)", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (snapshots == null) {
-                        Log.d(TAG, "collection snapshots null");
-                        Toast.makeText(AdminInboxActivity.this, "No users found", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    Log.d(TAG, "collection snapshot size = " + snapshots.size());
-                    List<UserAdapter.Item> list = new ArrayList<>();
-
-                    for (DocumentSnapshot d : snapshots.getDocuments()) {
-                        Log.d(TAG, "ALL doc: " + d.getId() + " => " + d.getData());
-                        AnyUser u = d.toObject(AnyUser.class);
-                        if (u == null) {
-                            Log.d(TAG, "toObject returned null for doc " + d.getId());
-                            continue;
-                        }
-
-                        String uRole = u.getRole() == null ? "" : u.getRole();
-                        String uStatus = u.getStatus() == null ? "" : u.getStatus();
-
-                        Log.d(TAG, "Mapped user role=" + uRole + " status=" + uStatus);
-
-
-                        if ("Administrator".equalsIgnoreCase(uRole)) continue;
-
-
-                        if (uStatus.equalsIgnoreCase(status)) {
-                            list.add(new UserAdapter.Item(d.getId(), u));
-                        }
-                    }
-
-                    adapter.setItems(list);
-                    Toast.makeText(AdminInboxActivity.this, "Displayed: " + list.size() + " items", Toast.LENGTH_SHORT).show();
-                });
-    }
 
     private void showDetailDialog(String uid, AnyUser user) {
         String message = "Name: " + user.getFirstName() + " " + user.getLastName() + "\n"
                 + "Email: " + user.getEmail() + "\n"
                 + "Phone: " + user.getPhoneNumber() + "\n"
                 + "Role: " + user.getRole();
+
+        //USE IN BUILD context dialog when
 
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setTitle("User Details");
@@ -140,17 +130,29 @@ public class AdminInboxActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+
             });
             b.setNegativeButton("Reject", (d, w) -> {
                 repo.updateStatus(uid, "REJECTED");
                 Toast.makeText(this, "Request rejected.", Toast.LENGTH_SHORT).show();
                 switchTo("REJECTED");
-                attachListenerFor("REJECTED");
+
+
+
+
+
             });
         } else if ("REJECTED".equals(currentMode)) {
             b.setPositiveButton("Approve", (d, w) -> {
                 repo.updateStatus(uid, "APPROVED");
                 Toast.makeText(this, "Request approved.", Toast.LENGTH_SHORT).show();
+
+
+
             });
         }
 
@@ -161,6 +163,8 @@ public class AdminInboxActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (listener != null) listener.remove();
+        if (pendinglistener != null) pendinglistener.remove();
+        if (rejectedListener != null) rejectedListener.remove();
     }
 }
+

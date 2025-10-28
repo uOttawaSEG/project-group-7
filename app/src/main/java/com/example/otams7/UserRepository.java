@@ -17,11 +17,11 @@
 
         //note add snapshot listeners in activity
         public Query listPending(){
-            return usersRef.whereEqualTo("status","Pending");
+            return usersRef.whereEqualTo("status","PENDING");
 
         }
         public Query listRejected(){
-            return usersRef.whereEqualTo("status","Rejected");
+            return usersRef.whereEqualTo("status","REJECTED");
 
         }
 
@@ -31,18 +31,20 @@
         }
         //we need to approve/reject
         public  void approve(String userid){
-            usersRef.document(userid).update("status","Approved");
+            usersRef.document(userid).update("status","APPROVED");
 
         }
         public  void reject(String userid){
-            usersRef.document(userid).update("status","Rejected");
+            usersRef.document(userid).update("status","REJECTED");
 
         } //setter
 
         public void updateStatus(String userId, String newStatus) {
+
+
             db.collection("users")
                     .document(userId)
-                    .update("status", newStatus);
+                    .update("status", newStatus.toUpperCase());
         }
         public void createOrUpdateUser(String userid, AnyUser user){
 
@@ -52,6 +54,6 @@
 
         public Query queryByStatus(String status) {
             return db.collection("users")
-                    .whereEqualTo("status", status);
+                    .whereEqualTo("status", status.toUpperCase());
         }
     }

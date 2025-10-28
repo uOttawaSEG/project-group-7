@@ -86,7 +86,7 @@ public class Landing_Screen extends AppCompatActivity {
 
             if (emailAddress.equals(adEm) && password.equals(adPa)) {
                 Intent inbox=  new Intent(this,AdminInboxActivity.class);
-                inbox.putExtra(newLand,"Adminstrator");
+                inbox.putExtra(newLand,"Administrator");
                 startActivity(inbox);
                 Toast.makeText(this,"Welcome ADMINSTRATOR TO YOUR INBOX",Toast.LENGTH_SHORT).show();
 
@@ -102,7 +102,7 @@ public class Landing_Screen extends AppCompatActivity {
 //                startActivity(log);
 //
 //
-//
+//                 no test for admin db creds ??
 //
 //
 //

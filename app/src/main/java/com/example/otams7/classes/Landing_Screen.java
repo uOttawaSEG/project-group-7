@@ -97,6 +97,7 @@ public class Landing_Screen extends AppCompatActivity {
 
 
 
+
 //                Intent log = new Intent(this, AdminInboxActivity.class);
 //                log.putExtra(newLand, "Administrator");
 //                startActivity(log);
@@ -125,6 +126,10 @@ public class Landing_Screen extends AppCompatActivity {
 //                                Toast.makeText(Landing_Screen.this,"ERROR: " + e.getMessage(),Toast.LENGTH_SHORT).show();
 //                            }
 //                        });
+            }
+            else{
+                Toast.makeText(this,"Invalid creds",Toast.LENGTH_SHORT).show();
+
             }
 //
 

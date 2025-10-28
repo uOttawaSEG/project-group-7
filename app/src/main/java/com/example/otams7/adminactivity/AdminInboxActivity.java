@@ -49,7 +49,6 @@ public class AdminInboxActivity extends AppCompatActivity {
         btnPending.setOnClickListener(v -> switchTo("PENDING"));
         btnRejected.setOnClickListener(v -> switchTo("REJECTED"));
 
-        // Click on a user → show details dialog
         adapter.setClick((userId, user) -> showDetailDialog(userId, user));
 
         attachListenerFor("PENDING"); // start on pending list
@@ -59,8 +58,14 @@ public class AdminInboxActivity extends AppCompatActivity {
         if (mode.equals(currentMode)) return;
         currentMode = mode;
 
+
         btnPending.setEnabled(!"PENDING".equals(mode));
         btnRejected.setEnabled(!"REJECTED".equals(mode));
+
+        if (listener != null) {
+            listener.remove();
+            listener = null;
+        }
 
         attachListenerFor(mode);
     }
@@ -74,7 +79,7 @@ public class AdminInboxActivity extends AppCompatActivity {
 
 
         listener = FirebaseFirestore.getInstance()
-                .collection("users")
+                .collection("users").whereEqualTo("status",status)
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.e(TAG, "collection listener error", e);
@@ -97,16 +102,16 @@ public class AdminInboxActivity extends AppCompatActivity {
                             Log.d(TAG, "toObject returned null for doc " + d.getId());
                             continue;
                         }
-                        // protect against null status/role
+
                         String uRole = u.getRole() == null ? "" : u.getRole();
                         String uStatus = u.getStatus() == null ? "" : u.getStatus();
 
                         Log.d(TAG, "Mapped user role=" + uRole + " status=" + uStatus);
 
-                        // exclude admin
+
                         if ("Administrator".equalsIgnoreCase(uRole)) continue;
 
-                        // match status case-insensitively
+
                         if (uStatus.equalsIgnoreCase(status)) {
                             list.add(new UserAdapter.Item(d.getId(), u));
                         }
@@ -132,10 +137,15 @@ public class AdminInboxActivity extends AppCompatActivity {
             b.setPositiveButton("Approve", (d, w) -> {
                 repo.updateStatus(uid, "APPROVED");
                 Toast.makeText(this, "Request approved.", Toast.LENGTH_SHORT).show();
+
+
+
             });
             b.setNegativeButton("Reject", (d, w) -> {
                 repo.updateStatus(uid, "REJECTED");
                 Toast.makeText(this, "Request rejected.", Toast.LENGTH_SHORT).show();
+                switchTo("REJECTED");
+                attachListenerFor("REJECTED");
             });
         } else if ("REJECTED".equals(currentMode)) {
             b.setPositiveButton("Approve", (d, w) -> {

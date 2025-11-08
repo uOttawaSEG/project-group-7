@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <!-- Main vertical container -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Welcome Text -->
+
+        <!-- Manage Availability Button -->
+        <TextView
+            android:id="@+id/txtWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Welcome, Tutor!"
+            android:textAlignment="center"
+            android:textColor="#111111"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnManageAvailability"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Manage Availability Slots"
+            android:layout_marginBottom="16dp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1D4ED8"/>
+
+        <!-- Upcoming Sessions -->
+        <TextView
+            android:text="Upcoming Sessions 👩🏻‍💻"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvUpcomingSessions"
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_marginBottom="16dp"
+            android:background="#f2f2f2" />
+
+        <!-- Past Sessions -->
+        <TextView
+            android:text="Past Sessions 💻"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Session Requests -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPastSessions"
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_marginBottom="16dp"
+            android:background="#f2f2f2" />
+
+        <TextView
+            android:text="Session Requests 💼"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSessionRequests"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_marginBottom="16dp"
+            android:background="#f2f2f2" />
+
+        <!-- Auto-Approve Toggle -->
+
+        <!-- Logout Button -->
+
+        <!-- Footer Text -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Auto- Approve My  Requests" />
+
+            <Switch
+                android:id="@+id/switchAutoApprove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="TouchTargetSizeCheck" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#000000"
+            android:text="Log out"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="© project-group-7"
+            android:textAlignment="center"
+            android:textColor="#8E8E8E"
+            android:textSize="12sp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,7 @@ import com.example.otams7.RegisterTutorActivity;
 import com.example.otams7.adminactivity.AdminInboxActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -30,15 +31,15 @@ public class Landing_Screen extends AppCompatActivity {
     public static final String newAdmin = "NEW ADMIN";
 
 
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    FirebaseAuth auth= FirebaseAuth.getInstance();
 
-    private void login(String adminLogin) {
-        Intent newAdm = new Intent(this, LogoutPage.class);
-        newAdm.putExtra(newAdmin, adminLogin);
-        newAdm.putExtra(newLand, adminLogin);
-        startActivity(newAdm);
-    }
+
+
+
+
 
 
 
@@ -50,10 +51,7 @@ public class Landing_Screen extends AppCompatActivity {
 
 
 
-        View admin = findViewById(R.id.linkDevAdmin);
-        if(admin != null) {
-            admin.setOnClickListener(v -> login("Administrator"));
-        }
+
 
         View tutor = findViewById(R.id.btnRegisterTutor);
         if (tutor != null) {
@@ -94,46 +92,29 @@ public class Landing_Screen extends AppCompatActivity {
 
 
 
-
-
-
-
-//                Intent log = new Intent(this, AdminInboxActivity.class);
-//                log.putExtra(newLand, "Administrator");
-//                startActivity(log);
-//
-//
-//                 no test for admin db creds ??
-//
-//
-//
-//                // Now store the credentials in Firebase (only if login is successful)
-//                Map<String, Object> user = new HashMap<>();
-//                user.put("email", emailAddress);
-//                user.put("password", password); // You may want to store a hashed password instead for security reasons
-//
-//                db.collection("users")
-//                        .add(user)
-//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                Toast.makeText(Landing_Screen.this,"Data stored",Toast.LENGTH_SHORT).show();
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(Landing_Screen.this,"ERROR: " + e.getMessage(),Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
             }
-            else{
-                Toast.makeText(this,"Invalid creds",Toast.LENGTH_SHORT).show();
+            else
+            //any user student/tutor
+            {
+//                Toast.makeText(this, "Hey student/tutor you have now logged in", Toast.LENGTH_SHORT).show();
+                auth.signInWithEmailAndPassword(emailAddress, password).addOnSuccessListener(authResult -> checkUserStatus(auth.getCurrentUser().getUid())).
+                        addOnFailureListener(e ->
+                                Toast.makeText(this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
 
             }
-//
+
+
+
+
 
         });
+
+
+
+
+
+
 
 
 
@@ -144,5 +125,63 @@ public class Landing_Screen extends AppCompatActivity {
         Intent i = new Intent(this, AdminInboxActivity.class);
         i.putExtra(newAdmin, "Administrator");
         startActivity(i);
+    }
+    private void checkUserStatus(String uid){
+        db.collection("users").document(uid).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if(!documentSnapshot.exists()) {
+                        Toast.makeText(this, "No user record found.", Toast.LENGTH_SHORT).show();
+                        return;
+
+
+                    }
+                    String role = documentSnapshot.getString("role");
+                    String status = documentSnapshot.getString("status");
+
+                    if(status==null){
+                        Toast.makeText(this, "Your account has no status assigned.", Toast.LENGTH_SHORT).show();
+                        return;
+
+                    }
+
+                    switch (status) {
+
+                        case "APPROVED":
+                            if ("Tutor".equalsIgnoreCase(role)) {
+                                startActivity(new Intent(this, TutorActivity.class));
+                                Toast.makeText(this, "You are now  logged in  you have been approved " + role, Toast.LENGTH_SHORT).show();
+
+                            }
+                            else {
+                                Toast.makeText(this, "Unknown role: " + role, Toast.LENGTH_SHORT).show();
+                            }
+
+                            break;
+
+                        case "PENDING":
+                            Toast.makeText(this, "Your tutor registration is pending admin approval.", Toast.LENGTH_LONG).show();
+                            break;
+
+
+                        case "REJECTED":
+                            Toast.makeText(this, "Your tutor registration request was rejected by admin.", Toast.LENGTH_LONG).show();
+                            break;
+
+
+                        default:
+                            Toast.makeText(this,"Unkown status", Toast.LENGTH_SHORT).show();
+
+
+                    }
+
+
+                }).addOnFailureListener(e ->
+                        Toast.makeText(this, "Failed to fetch user info: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
+
+
+
+
+
     }
 }

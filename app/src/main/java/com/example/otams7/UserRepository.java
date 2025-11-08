@@ -1,5 +1,7 @@
     package com.example.otams7;
 
+    import android.util.Log;
+
     import com.example.otams7.classes.AnyUser;
     import com.google.firebase.firestore.CollectionReference;
     import com.google.firebase.firestore.DocumentReference;
@@ -44,7 +46,8 @@
 
             db.collection("users")
                     .document(userId)
-                    .update("status", newStatus.toUpperCase());
+                    .update("status", newStatus.toUpperCase())
+                            .addOnFailureListener(e -> Log.e("UserRepo", "Error updating status", e));;
         }
         public void createOrUpdateUser(String userid, AnyUser user){
 
